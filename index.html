@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentShathi - Education Portal</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f7f6; color: #333; }
+        .navbar { background: #1a237e; color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .logo { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
+        .btn-login { background: #ff5722; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-login:hover { background: #e64a19; }
+        
+        .hero { background: #283593; color: white; padding: 60px 20px; text-align: center; }
+        .container { max-width: 1100px; margin: -40px auto 40px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        
+        .card { background: white; border-radius: 12px; padding: 30px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: 0.3s; }
+        .card:hover { transform: translateY(-10px); }
+        .card h3 { color: #1a237e; margin-bottom: 15px; }
+        
+        .btn-action { display: block; width: 100%; padding: 12px; margin-top: 20px; border-radius: 6px; text-decoration: none; font-weight: bold; border: none; cursor: pointer; font-size: 16px; }
+        .btn-pdf { background: #4caf50; color: white; }
+        .btn-quiz { background: #2196f3; color: white; }
+        .btn-premium { background: #ff9800; color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="logo">STUDENT SHATHI</div>
+        <button class="btn-login" id="loginBtn" onclick="userLogin()">GOOGLE SIGN IN</button>
+    </div>
+
+    <div class="hero">
+        <h1>Aapka Personal Learning Partner</h1>
+        <p>Premium Notes aur Quizzes ab aapki mutthi mein</p>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h3>Study Material</h3>
+            <p>Download Kurti Range & Exam Notes</p>
+            <a href="https://drive.google.com/file/d/12x2cajpsV0UBYh-iep92EwvkrYHT8NpI/view?usp=drive_link" target="_blank" class="btn-action btn-pdf">DOWNLOAD PDF</a>
+        </div>
+
+        <div class="card">
+            <h3>Practice Quiz</h3>
+            <p>Check your knowledge daily</p>
+            <button class="btn-action btn-quiz" onclick="startQuiz()">START QUIZ</button>
+        </div>
+
+        <div class="card" style="border: 2px solid #ff9800;">
+            <h3>Premium Access</h3>
+            <p>Unlock All Subjects for ₹9</p>
+            <button class="btn-action btn-premium" onclick="alert('Payment gateway setup jald aa raha hai!')">UPGRADE NOW</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC1yFLm45RSy45QVengZ7wMIP6I_aEv4Ro",
+            authDomain: "studentshathi-af31d.firebaseapp.com",
+            projectId: "studentshathi-af31d",
+            storageBucket: "studentshathi-af31d.firebasestorage.app",
+            messagingSenderId: "950398226657",
+            appId: "1:950398226657:web:29d7ad272c82bdf385e7a0"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        const provider = new GoogleAuthProvider();
+
+        window.userLogin = function() {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    alert("Swagat hai " + result.user.displayName);
+                    document.getElementById('loginBtn').innerText = result.user.displayName.toUpperCase();
+                    document.getElementById('loginBtn').style.background = "#4caf50";
+                })
+                .catch((error) => {
+                    console.error(error);
+                    alert("Error Code: " + error.code + "\nSolution: Firebase Settings mein 'localhost' aur '127.0.0.1' add karein.");
+                });
+        }
+    </script>
+
+    <script>
+        function startQuiz() {
+            let ans = prompt("Bharat ki Rajdhani kya hai?\n(A) Mumbai (B) Delhi");
+            if(ans && (ans.toLowerCase() == 'b' || ans.toLowerCase() == 'delhi')) {
+                alert("Sahi Jawab! 🎉");
+            } else {
+                alert("Galat Jawab! Sahi jawab Delhi (B) hai.");
+            }
+        }
+    </script>
+
+</body>
+</html>
