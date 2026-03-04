@@ -2,57 +2,44 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - StudentShathi</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: white; padding: 20px; margin: 0; }
-        .container { max-width: 900px; margin: 30px auto; background: #1e293b; padding: 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #334155; }
-        h2 { color: #00f2fe; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #0f172a; border-radius: 10px; overflow: hidden; }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #334155; font-size: 14px; }
-        th { background: #00f2fe; color: #000; font-weight: bold; }
-        tr:hover { background: #1e293b; }
-        .login-box { text-align: center; margin-top: 150px; background: #1e293b; padding: 40px; border-radius: 20px; display: inline-block; width: 100%; max-width: 350px; }
-        input { padding: 12px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; width: 100%; margin-bottom: 15px; box-sizing: border-box; }
-        .btn { background: #00f2fe; color: #000; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; }
-        .btn:active { transform: scale(0.98); }
-        center { width: 100%; }
+        body { font-family: sans-serif; background: #0f172a; color: white; padding: 20px; }
+        .box { max-width: 800px; margin: auto; background: #1e293b; padding: 20px; border-radius: 15px; border: 1px solid #334155; }
+        input, button { padding: 12px; border-radius: 8px; border: none; margin: 10px 0; }
+        input { width: 100%; background: #0f172a; color: white; border: 1px solid #334155; box-sizing: border-box; }
+        .btn { background: #00f2fe; color: #000; font-weight: bold; cursor: pointer; width: 100%; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border: 1px solid #334155; text-align: left; }
+        th { background: #00f2fe; color: black; }
     </style>
 </head>
 <body>
 
-    <center>
-    <div id="adminAuth" class="login-box">
-        <h2 style="color:white; margin-bottom:20px;">Admin Login</h2>
-        <input type="password" id="passInput" placeholder="Enter Secret Password">
-        <button class="btn" onclick="verifyAdmin()">UNLOCK DATA</button>
+    <div id="auth" style="text-align: center; margin-top: 100px;">
+        <h2>Admin Security</h2>
+        <input type="password" id="p" placeholder="Enter Password" style="width:250px;">
+        <button onclick="login()" class="btn" style="width:250px;">LOGIN</button>
     </div>
-    </center>
 
-    <div id="adminPanel" class="container" style="display:none">
-        <h2>Student Database</h2>
-        <p style="text-align:center; color:#94a3b8;">Yahan aapke saare students ki list hai</p>
-        <div style="overflow-x: auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Student Name</th>
-                        <th>Class</th>
-                        <th>Mobile Number</th>
-                    </tr>
-                </thead>
-                <tbody id="userTableBody">
-                    </tbody>
-            </table>
-        </div>
-        <button class="btn" style="margin-top:20px; background:#f43f5e; color:white;" onclick="location.reload()">LOGOUT</button>
+    <div id="main" style="display:none;" class="box">
+        <h2>📢 Send Notification</h2>
+        <input type="text" id="msg" placeholder="Write message to all students...">
+        <button onclick="sendNotif()" class="btn">SEND NOW</button>
+
+        <hr style="margin: 30px 0; border: 0.5px solid #334155;">
+
+        <h2>👥 Registered Students</h2>
+        <table>
+            <thead><tr><th>Name</th><th>Class</th><th>Mobile</th></tr></thead>
+            <tbody id="list"></tbody>
+        </table>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Aapka same Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyC1yFLm45RSy45QVengZ7wMIP6I_aEv4Ro",
             authDomain: "studentshathi-af31d.firebaseapp.com",
@@ -61,21 +48,31 @@
             messagingSenderId: "950398226657",
             appId: "1:950398226657:web:29d7ad272c82bdf385e7a0"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        window.verifyAdmin = async function() {
-            let pass = document.getElementById('passInput').value;
-            if(pass === "PRINCE786") { 
-                document.getElementById('adminAuth').style.display = 'none';
-                document.getElementById('adminPanel').style.display = 'block';
-                fetchUsers();
-            } else {
-                alert("Galat Password! Dubara koshish karein.");
+        window.login = function() {
+            if(document.getElementById('p').value === "PRINCE786") {
+                document.getElementById('auth').style.display='none';
+                document.getElementById('main').style.display='block';
+                loadUsers();
             }
         }
 
-        async function fetchUsers() {
-            try {
-                const querySnapshot = await
+        window.sendNotif = async function() {
+            let t = document.getElementById('msg').value;
+            await setDoc(doc(db, "settings", "notification"), { text: t });
+            alert("Sent!");
+        }
+
+        async function loadUsers() {
+            const snap = await getDocs(collection(db, "users"));
+            let html = "";
+            snap.forEach(d => {
+                html += `<tr><td>${d.data().fullName}</td><td>${d.data().studentClass}</td><td>${d.data().mobile}</td></tr>`;
+            });
+            document.getElementById('list').innerHTML = html;
+        }
+    </script>
+</body>
+</html>
