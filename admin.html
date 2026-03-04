@@ -2,14 +2,16 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Panel - StudentShathi</title>
+    <title>Master Admin - StudentShathi</title>
     <style>
-        body { font-family: sans-serif; background: #0f172a; color: white; padding: 20px; }
-        .box { max-width: 800px; margin: auto; background: #1e293b; padding: 20px; border-radius: 15px; border: 1px solid #334155; }
-        input, button { padding: 12px; border-radius: 8px; border: none; margin: 10px 0; }
-        input { width: 100%; background: #0f172a; color: white; border: 1px solid #334155; box-sizing: border-box; }
-        .btn { background: #00f2fe; color: #000; font-weight: bold; cursor: pointer; width: 100%; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: white; padding: 20px; }
+        .box { max-width: 800px; margin: 20px auto; background: #1e293b; padding: 25px; border-radius: 20px; border: 1px solid #334155; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { color: #00f2fe; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; }
+        .btn { background: #00f2fe; color: #000; font-weight: bold; cursor: pointer; width: 100%; border: none; padding: 15px; border-radius: 10px; margin-top: 5px; }
+        .btn:hover { background: #05d5e0; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
         th, td { padding: 12px; border: 1px solid #334155; text-align: left; }
         th { background: #00f2fe; color: black; }
     </style>
@@ -17,23 +19,42 @@
 <body>
 
     <div id="auth" style="text-align: center; margin-top: 100px;">
-        <h2>Admin Security</h2>
-        <input type="password" id="p" placeholder="Enter Password" style="width:250px;">
-        <button onclick="login()" class="btn" style="width:250px;">LOGIN</button>
+        <div class="box" style="max-width:350px;">
+            <h2>Admin Login</h2>
+            <input type="password" id="p" placeholder="Enter Secret Password">
+            <button onclick="login()" class="btn">UNLOCK PANEL</button>
+        </div>
     </div>
 
-    <div id="main" style="display:none;" class="box">
-        <h2>📢 Send Notification</h2>
-        <input type="text" id="msg" placeholder="Write message to all students...">
-        <button onclick="sendNotif()" class="btn">SEND NOW</button>
+    <div id="main" style="display:none;">
+        <div class="box">
+            <h2>📢 Update Notification</h2>
+            <input type="text" id="msg" placeholder="E.g. Kal 10 baje Science ka test hai!">
+            <button onclick="sendUpdate('notification', {text: document.getElementById('msg').value})" class="btn">Update Notice</button>
+        </div>
 
-        <hr style="margin: 30px 0; border: 0.5px solid #334155;">
+        <div class="box">
+            <h2>📚 Upload Resources (Links)</h2>
+            <div class="grid">
+                <div>
+                    <label>PDF Notes Link</label>
+                    <input type="text" id="pdfLink" placeholder="Paste Google Drive Link">
+                </div>
+                <div>
+                    <label>Live Test Link</label>
+                    <input type="text" id="testLink" placeholder="Paste Quiz/Form Link">
+                </div>
+            </div>
+            <button onclick="updateResources()" class="btn" style="background: #a855f7; color:white;">Update PDF & Test</button>
+        </div>
 
-        <h2>👥 Registered Students</h2>
-        <table>
-            <thead><tr><th>Name</th><th>Class</th><th>Mobile</th></tr></thead>
-            <tbody id="list"></tbody>
-        </table>
+        <div class="box">
+            <h2>👥 Registered Students</h2>
+            <table>
+                <thead><tr><th>Name</th><th>Class</th><th>Mobile</th></tr></thead>
+                <tbody id="list"></tbody>
+            </table>
+        </div>
     </div>
 
     <script type="module">
@@ -56,13 +77,19 @@
                 document.getElementById('auth').style.display='none';
                 document.getElementById('main').style.display='block';
                 loadUsers();
-            }
+            } else { alert("Wrong Password!"); }
         }
 
-        window.sendNotif = async function() {
-            let t = document.getElementById('msg').value;
-            await setDoc(doc(db, "settings", "notification"), { text: t });
-            alert("Sent!");
+        window.sendUpdate = async function(collectionName, data) {
+            await setDoc(doc(db, "settings", collectionName), data);
+            alert("Updated Successfully!");
+        }
+
+        window.updateResources = async function() {
+            const pdf = document.getElementById('pdfLink').value;
+            const test = document.getElementById('testLink').value;
+            await setDoc(doc(db, "settings", "links"), { pdfUrl: pdf, testUrl: test });
+            alert("PDF and Test Links Updated!");
         }
 
         async function loadUsers() {
