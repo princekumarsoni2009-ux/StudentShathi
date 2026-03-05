@@ -12,42 +12,44 @@
             --primary: #6366f1; --secondary: #a855f7; --bg: #0f172a; 
             --card: #1e293b; --text: #f8fafc; --neon: #00f2fe; --gold: #fbbf24;
         }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { font-family: 'Poppins', sans-serif; margin: 0; background: var(--bg); color: var(--text); padding-bottom: 90px; overflow-x: hidden; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: var(--bg); color: var(--text); overflow-x: hidden; }
         
-        /* Layouts */
-        .header { background: rgba(30, 41, 59, 0.9); backdrop-filter: blur(10px); padding: 18px; text-align: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1); font-weight: bold; color: var(--neon); letter-spacing: 1px; }
-        .page { display: none; padding: 15px; animation: slideUp 0.3s ease; }
+        .header { background: rgba(30, 41, 59, 0.9); backdrop-filter: blur(10px); padding: 18px; text-align: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1); font-weight: bold; color: var(--neon); }
+        
+        /* Page adjustment for Menu */
+        .page { display: none; padding: 15px; padding-bottom: 100px; animation: slideUp 0.3s ease; }
         .active-page { display: block; }
 
         /* Auth Screen */
-        #auth-screen { position: fixed; inset: 0; background: var(--bg); z-index: 5000; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .auth-card { background: var(--card); padding: 30px; border-radius: 25px; width: 100%; max-width: 400px; border: 1px solid var(--primary); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        #auth-screen { position: fixed; inset: 0; background: var(--bg); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .auth-card { background: var(--card); padding: 30px; border-radius: 25px; width: 100%; max-width: 400px; border: 1px solid var(--primary); }
 
         /* Premium Section */
-        .premium-banner { background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 22px; border-radius: 22px; margin-bottom: 20px; text-align: center; box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3); }
+        .premium-banner { background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 20px; border-radius: 22px; margin-bottom: 20px; text-align: center; }
         .plan-grid { display: flex; gap: 8px; margin-top: 15px; }
-        .plan-item { flex: 1; background: rgba(255,255,255,0.15); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.3); font-size: 13px; cursor: pointer; }
+        .plan-item { flex: 1; background: rgba(255,255,255,0.15); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.3); font-size: 11px; cursor: pointer; }
 
-        /* Grid Cards */
+        /* Grid & Cards */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
         .m-card { background: var(--card); padding: 20px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); position: relative; }
         .m-card i { font-size: 26px; color: var(--neon); margin-bottom: 10px; }
         .lock-icon { position: absolute; top: 10px; right: 10px; color: var(--gold); font-size: 12px; }
 
-        /* List Items */
-        .list-btn { background: var(--card); padding: 18px; border-radius: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--primary); }
-        .locked-feature { opacity: 0.6; filter: grayscale(0.5); }
+        /* FIX: Bottom Nav Sabse upar */
+        .nav-bar { 
+            position: fixed !important; bottom: 0; left: 0; width: 100%; 
+            height: 75px; background: #1e293b; display: flex; 
+            justify-content: space-around; align-items: center; 
+            border-top: 2px solid var(--primary); border-radius: 20px 20px 0 0; 
+            z-index: 9999 !important; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); 
+        }
+        .nav-link { text-align: center; color: #94a3b8; font-size: 11px; flex: 1; text-decoration: none; display: flex; flex-direction: column; align-items: center; }
+        .nav-link.active-link { color: var(--neon); font-weight: bold; }
+        .nav-link i { font-size: 22px; margin-bottom: 4px; }
 
-        /* Form elements */
         input { width: 100%; padding: 14px; border-radius: 12px; background: #0f172a; color: white; border: 1px solid #334155; margin-bottom: 12px; }
-        .btn-glow { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 12px; width: 100%; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); }
-
-        /* Nav */
-        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.1); border-radius: 20px 20px 0 0; z-index: 2000; }
-        .nav-link { text-align: center; color: #94a3b8; font-size: 10px; flex: 1; text-decoration: none; }
-        .nav-link.active-link { color: var(--neon); }
-        .nav-link i { font-size: 20px; display: block; margin-bottom: 4px; }
+        .btn-glow { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 12px; width: 100%; font-weight: bold; cursor: pointer; }
 
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
@@ -56,21 +58,21 @@
 
     <div id="auth-screen">
         <div class="auth-card" id="login-box">
-            <h2 style="color:var(--neon); margin-top:0;">EduSpark Login</h2>
+            <h2 style="color:var(--neon);">EduSpark Login</h2>
             <input type="email" id="l-email" placeholder="Email">
             <input type="password" id="l-pass" placeholder="Password">
             <button class="btn-glow" onclick="doLogin()">LOGIN</button>
-            <p style="text-align:center; font-size:12px; margin-top:20px;">New user? <a href="javascript:void(0)" onclick="authToggle(true)" style="color:var(--neon);">Create Account</a></p>
+            <p style="text-align:center; font-size:12px; margin-top:15px;">New? <a href="javascript:void(0)" onclick="authToggle(true)" style="color:var(--neon);">Register</a></p>
         </div>
         <div class="auth-card" id="signup-box" style="display:none;">
-            <h2 style="color:var(--neon); margin-top:0;">Register</h2>
-            <input type="text" id="s-name" placeholder="Full Name">
-            <input type="text" id="s-mobile" placeholder="Mobile Number">
+            <h2>Register</h2>
+            <input type="text" id="s-name" placeholder="Name">
+            <input type="text" id="s-mobile" placeholder="Mobile">
             <input type="email" id="s-email" placeholder="Email">
-            <input type="password" id="s-pass" placeholder="Password (6+ Char)">
-            <input type="text" id="s-class" placeholder="Your Class (e.g. 10th)">
+            <input type="password" id="s-pass" placeholder="Password">
+            <input type="text" id="s-class" placeholder="Class (10/12)">
             <button class="btn-glow" onclick="doSignup()">SIGN UP</button>
-            <p style="text-align:center; font-size:12px; margin-top:20px;"><a href="javascript:void(0)" onclick="authToggle(false)" style="color:var(--neon);">Back to Login</a></p>
+            <p style="text-align:center; font-size:12px; margin-top:15px;"><a href="javascript:void(0)" onclick="authToggle(false)" style="color:var(--neon);">Back to Login</a></p>
         </div>
     </div>
 
@@ -78,68 +80,43 @@
 
     <div id="home" class="page active-page">
         <div class="premium-banner" id="premium-box">
-            <h3 style="margin:0;"><i class="fas fa-gem"></i> Premium Access</h3>
-            <p style="font-size:11px; margin:5px 0;">Unlock all Model Papers & Tests</p>
+            <h3><i class="fas fa-gem"></i> Premium VIP</h3>
             <div class="plan-grid">
-                <div class="plan-item" onclick="payNow(900)">₹9<br>Monthly</div>
-                <div class="plan-item" onclick="payNow(4900)">₹49<br>6 Months</div>
-                <div class="plan-item" onclick="payNow(8900)">₹89<br>Yearly</div>
+                <div class="plan-item" onclick="payNow(900)">₹9<br>Month</div>
+                <div class="plan-item" onclick="payNow(4900)">₹49<br>6 Mo</div>
+                <div class="plan-item" onclick="payNow(8900)">₹89<br>Year</div>
             </div>
-            <button class="btn-glow" style="background:white; color:var(--primary); margin-top:15px; font-size:12px;" onclick="payNow(900)">UPGRADE NOW</button>
+            <button class="btn-glow" style="background:white; color:var(--primary); margin-top:10px;" onclick="payNow(900)">UPGRADE NOW</button>
         </div>
 
         <div class="menu-grid">
-            <div class="m-card" onclick="checkAccess('test')">
-                <i class="fas fa-file-signature"></i><br>Live Test
-            </div>
-            <div class="m-card locked-feature" onclick="checkAccess('premium')">
-                <i class="fas fa-puzzle-piece"></i><br>Quiz <i class="fas fa-lock lock-icon"></i>
-            </div>
-            <div class="m-card locked-feature" onclick="checkAccess('premium')">
-                <i class="fas fa-book-reader"></i><br>Short Notes <i class="fas fa-lock lock-icon"></i>
-            </div>
-            <div class="m-card" onclick="window.open('https://wa.me/918173033009')">
-                <i class="fas fa-headset"></i><br>Support
-            </div>
+            <div class="m-card" onclick="alert('Starting Test...')"><i class="fas fa-file-signature"></i><br>Live Test</div>
+            <div class="m-card" onclick="alert('Join Premium to unlock Quiz!')"><i class="fas fa-puzzle-piece"></i><br>Quiz <i class="fas fa-lock lock-icon"></i></div>
+            <div class="m-card" onclick="window.open('https://wa.me/918173033009')"><i class="fas fa-headset"></i><br>Support</div>
+            <div class="m-card" onclick="alert('Join Premium to unlock Notes!')"><i class="fas fa-book-reader"></i><br>Notes <i class="fas fa-lock lock-icon"></i></div>
         </div>
 
         <div class="m-card" style="text-align:left;">
-            <h4><i class="fas fa-robot"></i> AI Guru (ChatGPT)</h4>
-            <input type="text" id="ai-q" placeholder="Ask anything in Hindi/English...">
+            <h4><i class="fas fa-robot"></i> AI Guru</h4>
+            <input type="text" id="ai-q" placeholder="Pucho kuch bhi...">
             <button class="btn-glow" onclick="askAI()">ASK GURU</button>
-            <div id="ai-ans" style="display:none; margin-top:15px; font-size:13px; line-height:1.6; background:rgba(0,0,0,0.2); padding:12px; border-radius:12px;"></div>
+            <div id="ai-ans" style="display:none; margin-top:15px; font-size:13px; background:rgba(0,0,0,0.2); padding:10px; border-radius:10px;"></div>
         </div>
     </div>
 
     <div id="papers" class="page">
         <h3>Model Papers 2026</h3>
-        <div class="list-btn" onclick="openSubjectList('10th')">
-            <span>Class 10th Papers</span> <i class="fas fa-chevron-right"></i>
-        </div>
-        <div class="list-btn" onclick="openSubjectList('12th')">
-            <span>Class 12th Papers</span> <i class="fas fa-chevron-right"></i>
-        </div>
-
-        <div id="subject-view" style="display:none; margin-top:20px; animation:fadeIn 0.5s;">
-            <h4 id="cls-title" style="color:var(--neon);">Select Subject</h4>
-            <div id="subject-grid" class="menu-grid">
-                </div>
-        </div>
+        <div class="m-card" onclick="alert('Maths Paper Loading...')">Class 10th - Maths (Free)</div>
+        <div class="m-card" style="opacity:0.6;" onclick="alert('Unlock Premium for all subjects!')">Class 10th - Science <i class="fas fa-lock lock-icon"></i></div>
+        <div class="m-card" style="opacity:0.6;" onclick="alert('Unlock Premium for all subjects!')">Class 12th - Physics <i class="fas fa-lock lock-icon"></i></div>
     </div>
 
     <div id="profile" class="page">
-        <div class="m-card" style="text-align:center;">
-            <div style="width:80px; height:80px; background:var(--primary); border-radius:50%; margin:0 auto 15px; display:flex; align-items:center; justify-content:center; font-size:35px;">
-                <i class="fas fa-user-graduate"></i>
-            </div>
-            <h3 id="u-name" style="margin:0;">Loading...</h3>
-            <p id="u-email" style="font-size:12px; opacity:0.6;"></p>
-            <div style="text-align:left; background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-top:20px; font-size:14px;">
-                <p><b>Mobile:</b> <span id="u-mobile"></span></p>
-                <p><b>Class:</b> <span id="u-class"></span></p>
-                <p><b>Subscription:</b> <span id="u-status" style="color:var(--gold);">Free User</span></p>
-            </div>
-            <button onclick="logout()" style="background:#f43f5e; color:white; border:none; padding:14px; width:100%; border-radius:12px; margin-top:20px; font-weight:bold;">LOGOUT</button>
+        <div class="m-card">
+            <i class="fas fa-user-circle" style="font-size:50px;"></i>
+            <h3 id="u-name">Loading...</h3>
+            <p id="u-email" style="font-size:12px;"></p>
+            <button onclick="logout()" style="background:#f43f5e; color:white; border:none; padding:10px; width:100%; border-radius:10px; margin-top:20px;">LOGOUT</button>
         </div>
     </div>
 
@@ -159,51 +136,39 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        let currentUserData = null;
         const GPT_KEY = "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";
 
-        // Auth Logic
         window.authToggle = (isSignup) => {
             document.getElementById('login-box').style.display = isSignup ? 'none' : 'block';
             document.getElementById('signup-box').style.display = isSignup ? 'block' : 'none';
         }
 
         window.doSignup = async () => {
-            const email = document.getElementById('s-email').value;
-            const pass = document.getElementById('s-pass').value;
             try {
-                const res = await createUserWithEmailAndPassword(auth, email, pass);
-                const data = {
+                const res = await createUserWithEmailAndPassword(auth, document.getElementById('s-email').value, document.getElementById('s-pass').value);
+                await setDoc(doc(db, "users", res.user.uid), {
                     name: document.getElementById('s-name').value,
                     mobile: document.getElementById('s-mobile').value,
                     class: document.getElementById('s-class').value,
-                    email: email,
+                    email: document.getElementById('s-email').value,
                     isVIP: false
-                };
-                await setDoc(doc(db, "users", res.user.uid), data);
+                });
             } catch (e) { alert(e.message); }
         }
 
         window.doLogin = async () => {
             try { await signInWithEmailAndPassword(auth, document.getElementById('l-email').value, document.getElementById('l-pass').value); }
-            catch (e) { alert("Wrong Password or Email!"); }
+            catch (e) { alert("Error!"); }
         }
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const d = await getDoc(doc(db, "users", user.uid));
                 if(d.exists()){
-                    currentUserData = d.data();
-                    document.getElementById('u-name').innerText = currentUserData.name;
-                    document.getElementById('u-email').innerText = currentUserData.email;
-                    document.getElementById('u-mobile').innerText = currentUserData.mobile;
-                    document.getElementById('u-class').innerText = currentUserData.class;
-                    
-                    if(currentUserData.isVIP) {
-                        document.getElementById('u-status').innerText = "Premium VIP 👑";
-                        document.getElementById('u-status').style.color = "var(--gold)";
-                        document.getElementById('premium-box').style.display = 'none';
-                    }
+                    const u = d.data();
+                    document.getElementById('u-name').innerText = u.name;
+                    document.getElementById('u-email').innerText = u.email;
+                    if(u.isVIP) document.getElementById('premium-box').style.display = 'none';
                 }
                 document.getElementById('auth-screen').style.display = 'none';
             } else { document.getElementById('auth-screen').style.display = 'flex'; }
@@ -211,7 +176,6 @@
 
         window.logout = () => signOut(auth);
 
-        // ChatGPT AI Guru
         window.askAI = async () => {
             const q = document.getElementById('ai-q').value;
             const ans = document.getElementById('ai-ans');
@@ -223,61 +187,20 @@
                     body: JSON.stringify({ model: "gpt-3.5-turbo", messages: [{role: "user", content: "Teach in Hindi: " + q}] })
                 });
                 const d = await r.json();
-                ans.innerHTML = "<b>AI Guru:</b> " + d.choices[0].message.content;
+                ans.innerHTML = d.choices[0].message.content;
             } catch(e) { ans.innerHTML = "API Quota finished!"; }
         }
 
-        // Razorpay Payment Integration
         window.payNow = (amt) => {
             var options = {
-                "key": "rzp_live_SNNYDJrc3MIE55",
-                "amount": amt,
-                "currency": "INR",
-                "name": "EduSpark Premium",
-                "description": "Unlock All Content",
-                "handler": async function (response){
-                    alert("Payment Successful! Refreshing App...");
+                "key": "rzp_live_SNNYDJrc3MIE55", "amount": amt, "currency": "INR", "name": "EduSpark Premium",
+                "handler": async function (res){
                     await updateDoc(doc(db, "users", auth.currentUser.uid), { isVIP: true });
                     location.reload();
                 },
-                "prefill": { "contact": "8173033009" },
-                "theme": { "color": "#6366f1" }
+                "prefill": { "contact": "8173033009" }, "theme": { "color": "#6366f1" }
             };
             var rzp = new Razorpay(options); rzp.open();
-        }
-
-        // Papers Logic with Locking
-        window.openSubjectList = (cls) => {
-            document.getElementById('subject-view').style.display = 'block';
-            document.getElementById('cls-title').innerText = "Class " + cls + " Subjects";
-            const grid = document.getElementById('subject-grid');
-            grid.innerHTML = "";
-            const subjects = ["Maths", "Science", "English", "Hindi", "Social Science", "Physics", "Chemistry"];
-            
-            subjects.forEach(sub => {
-                const isLocked = sub !== "Maths" && !currentUserData.isVIP;
-                const card = document.createElement('div');
-                card.className = "m-card " + (isLocked ? "locked-feature" : "");
-                card.innerHTML = `<i class="fas fa-book"></i><br>${sub} ${isLocked ? '<i class="fas fa-lock lock-icon"></i>' : ''}`;
-                card.onclick = () => {
-                    if(isLocked) alert("Please Upgrade to Premium to unlock " + sub);
-                    else alert("Opening " + sub + " Model Papers...");
-                };
-                grid.appendChild(card);
-            });
-        }
-
-        // Access Check
-        window.checkAccess = (type) => {
-            if(!currentUserData.isVIP && type !== 'test') {
-                alert("Premium Membership required for this feature!");
-                return;
-            }
-            if(type === 'test') {
-                alert("Starting Free Live Test... Sahi jawab dena!");
-                let a = prompt("5 + 5 = ?");
-                alert(a == "10" ? "Correct! 1/1 Score." : "Wrong Answer! 0/1.");
-            }
         }
 
         window.showTab = (id, el) => {
